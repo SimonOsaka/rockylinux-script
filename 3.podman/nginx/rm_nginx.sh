@@ -1,4 +1,4 @@
 #!/bin/bash
-podman stop nginx_podman
+sh stop_nginx.sh
 
 podman rm nginx_podman

@@ -14,7 +14,7 @@ podman run -it --name nginx_podman \
 -d docker.io/nginx:stable-alpine
 
 podman cp nginx_podman:/etc/nginx/nginx.conf /data/nginx/conf
-podman cp nginx_podman:/etc/nginx/conf.d /data/nginx/conf.d
+podman cp nginx_podman:/etc/nginx/conf.d /data/nginx
 
 sh rm_nginx.sh
 

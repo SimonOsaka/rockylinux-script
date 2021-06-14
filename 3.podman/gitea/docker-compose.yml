@@ -29,14 +29,14 @@ services:
      depends_on:
        - db
 
-   db:
-     image: docker.io/postgres:13
-     restart: always
-     environment:
-       - POSTGRES_USER=gitea
-       - POSTGRES_PASSWORD=gitea
-       - POSTGRES_DB=gitea
-     networks:
-       - gitea
-     volumes:
-       - /data/gitea/postgres/data:/var/lib/postgresql/data
+  db:
+    image: docker.io/postgres:13
+    restart: always
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=gitea
+      - POSTGRES_DB=gitea
+    networks:
+      - gitea
+    volumes:
+      - /data/gitea/postgres/data:/var/lib/postgresql/data

@@ -1,5 +1,9 @@
 version: "3"
 
+volumes:
+  gitea_server: {}
+  gitea_db: {}
+
 networks:
   gitea:
     external: false
@@ -7,7 +11,7 @@ networks:
 services:
   server:
     image: docker.io/gitea/gitea:latest
-    container_name: gitea
+    container_name: gitea_server
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -16,13 +20,12 @@ services:
       - DB_NAME=gitea
       - DB_USER=gitea
       - DB_PASSWD=gitea
+      - TZ=Asia/Shanghai
     restart: always
     networks:
       - gitea
     volumes:
-      - /data/gitea/data:/data
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
+      - gitea_server:/data
     ports:
       - "3000:3000"
       - "222:22"
@@ -31,12 +34,14 @@ services:
 
   db:
     image: docker.io/postgres:13
+    container_name: gitea_db
     restart: always
     environment:
       - POSTGRES_USER=gitea
       - POSTGRES_PASSWORD=gitea
       - POSTGRES_DB=gitea
+      - TZ=Asia/Shanghai
     networks:
       - gitea
     volumes:
-      - /data/gitea/postgres/data:/var/lib/postgresql/data
+      - gitea_db:/var/lib/postgresql/data

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-podman create volume gitea_server
-podman create volume gitea_db
+podman volume create gitea_server
+podman volume create gitea_db
 
 podman-compose up -d
 

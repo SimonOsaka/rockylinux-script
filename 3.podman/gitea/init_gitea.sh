@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir -p /data/gitea/data
-mkdir -p /data/gitea/postgres/data
+podman create volume gitea_server
+podman create volume gitea_db
 
 podman-compose up -d
 

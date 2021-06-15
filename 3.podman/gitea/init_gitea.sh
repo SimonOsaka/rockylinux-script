@@ -3,6 +3,6 @@
 mkdir -p /data/gitea/data
 mkdir -p /data/gitea/postgres/data
 
-podman-compose up -d
+sh run_gitea.sh
 
 podman-compose ps

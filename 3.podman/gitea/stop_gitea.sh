@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose stop
+podman-compose stop server db

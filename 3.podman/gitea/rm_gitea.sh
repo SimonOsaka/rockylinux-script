@@ -1,3 +1,3 @@
 #!/bin/bash
 
-podman-compose down
+podman-compose -p gitea_podman down

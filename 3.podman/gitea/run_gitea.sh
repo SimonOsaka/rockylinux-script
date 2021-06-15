@@ -1,3 +1,3 @@
 #!/bin/bash
 
-podman-compose up -d
+podman-compose -p gitea_podman up -d

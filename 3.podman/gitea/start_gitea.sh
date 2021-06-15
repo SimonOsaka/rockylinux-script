@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose start server db
+podman-compose -p gitea_podman start server db

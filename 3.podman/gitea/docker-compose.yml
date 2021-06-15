@@ -1,9 +1,5 @@
 version: "3"
 
-volumes:
-  gitea_server: {}
-  gitea_db: {}
-
 networks:
   gitea:
     external: false
@@ -25,7 +21,7 @@ services:
     networks:
       - gitea
     volumes:
-      - gitea_server:/data
+      - /data/gitea/data:/data:z
     ports:
       - "3000:3000"
       - "222:22"
@@ -44,4 +40,4 @@ services:
     networks:
       - gitea
     volumes:
-      - gitea_db:/var/lib/postgresql/data
+      - /data/gitea/postgres/data:/var/lib/postgresql/data:z

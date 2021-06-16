@@ -1,2 +1,2 @@
 #!/bin/bash
-podman stop drone_server_podman
+podman-compose -p drone_server_podman stop drone runner

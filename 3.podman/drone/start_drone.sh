@@ -1,2 +1,2 @@
 #!/bin/bash
-podman start drone_server_podman
+podman-compose -p drone_server_podman start drone runner

@@ -1,4 +1,3 @@
 #!/bin/bash
-sh stop_drone.sh
 
-podman rm drone_server_podman
+podman-compose -p drone_server_podman down

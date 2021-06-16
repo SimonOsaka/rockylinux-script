@@ -1,2 +1,2 @@
 #!/bin/bash
-podman ps -f "name=drone_server_podman"
+podman-compose -p drone_server_podman ps

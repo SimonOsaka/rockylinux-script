@@ -1,2 +1,2 @@
 #!/bin/bash
-podman ps
+podman ps -f "name=etcd_server_podman"

@@ -5,14 +5,15 @@ services:
         ports:
         - "9000:80"
         environment:
-        - DRONE_SERVER_HOST=192.168.56.102:9000
+        - TZ=Asia/Shanghai
+        - DRONE_SERVER_HOST=10.0.2.15:9000
         - DRONE_SERVER_PROTO=http
-        - DRONE_RPC_SECRET=bea26a2221fd8090ea38720fc445eca6
+        - DRONE_RPC_SECRET=55cc8950dbf26ca82d740d344e5196fd
         - DRONE_COOKIE_SECRET=e8206356c843d81e05ab6735e7ebf075
         - DRONE_COOKIE_TIMEOUT=720h
         - DRONE_GITEA_CLIENT_ID=${DRONE_GITEA_CLIENT_ID}
         - DRONE_GITEA_CLIENT_SECRET=${DRONE_GITEA_CLIENT_SECRET}
-        - DRONE_GITEA_SERVER=http://192.168.56.102:3000
+        - DRONE_GITEA_SERVER=http://10.0.2.15:3000/
         - DRONE_LOGS_DEBUG=true
         - DRONE_CRON_DISABLED=true
         restart: always
@@ -21,33 +22,22 @@ services:
         networks:
         - default
         - gitea
-        - docker
-    docker:
-        image: docker.io/docker:dind
+    runner:
+        image: docker.io/drone/drone-runner-ssh
         ports:
-        - "9001:9001"
-        volumes:
-        - .env:/opt/.env:z
-        - /data/drone/docker:/var/lib/docker:z
-        restart: always
-        env_file:
-        - .env
-        privileged: true
+        - "9001:3000"
+        depends_on:
+        - drone
+        environment:
+        - DRONE_RPC_HOST=10.0.2.15:9000
+        - DRONE_RPC_PROTO=http
+        - DRONE_RPC_SECRET=55cc8950dbf26ca82d740d344e5196fd
+        - DRONE_DEBUG=true
+        - DRONE_RUNNER_CAPACITY=2
+        - DRONE_RUNNER_NAME=drone-runner-ssh
         networks:
-        - docker
         - default
-#    runner:
-#        image: docker.io/drone/drone-runner-docker:linux-amd64
-#        ports:
-#        - "9001:9001"
-#        environment:
-#        - DRONE_RPC_HOST=drone
-#        - DRONE_RPC_PROTO=http
-#        - DRONE_RPC_SECRET=bea26a2221fd8090ea38720fc445eca6
-#        networks:
-#        - default
-#        - gitea
-#        - docker
+        - gitea
 
 networks:
     default:

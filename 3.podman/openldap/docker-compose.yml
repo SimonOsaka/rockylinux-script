@@ -1,0 +1,41 @@
+version: "3"
+services:
+  openldap:
+    image: docker.io/osixia/openldap:1.5.0
+    container_name: openldap
+    environment:
+      - LDAP_LOG_LEVEL=256
+      - LDAP_ORGANISATION="Examplee Inc."
+      - LDAP_DOMAIN=example.org
+      - LDAP_BASE_DN=
+      - LDAP_ADMIN_PASSWORD=admin
+      - LDAP_CONFIG_PASSWORD=config
+      - LDAP_READONLY_USER=false
+      - LDAP_RFC2307BIS_SCHEMA=false
+      - LDAP_BACKEND=mdb
+      - LDAP_REPLICATION=false
+      - KEEP_EXISTING_CONFIG=false
+      - LDAP_REMOVE_CONFIG_AFTER_SETUP=true
+      - LDAP_SSL_HELPER_PREFIX=ldap
+    tty: true
+    stdin_open: true
+    volumes:
+      - /data/openldap/ldap:/var/lib/ldap:z
+      - /data/openldap/slapd.d:/etc/ldap/slapd.d:z
+      - /data/openldap/certs:/container/service/slapd/assets/certs:z
+    ports:
+      - "389:389"
+      - "636:636"
+    domainname: "example.org"
+    hostname: "ldap-server"
+
+  phpldapadmin:
+    image: docker.io/osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=openldap
+      - PHPLDAPADMIN_HTTPS=false
+    ports:
+      - "8080:80"
+    depends_on:
+      - openldap

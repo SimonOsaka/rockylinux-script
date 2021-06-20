@@ -1,0 +1,23 @@
+version: "3"
+services:
+  jira:
+    image: docker.io/atlassian/jira-software:8.15.1
+    container_name: jira_server
+    volumes:
+      - /data/jira/data:/var/atlassian/application-data/jira:z
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  db:
+    image: docker.io/postgres:13
+    container_name: jira_db
+    restart: always
+    environment:
+      - POSTGRES_USER=jira
+      - POSTGRES_PASSWORD=jira
+      - POSTGRES_DB=jira
+      - TZ=Asia/Shanghai
+    volumes:
+      - /data/jira/postgres/data:/var/lib/postgresql/data:z

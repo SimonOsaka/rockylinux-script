@@ -38,6 +38,15 @@ services:
         networks:
         - default
         - gitea
+    docker:
+        image: docker.io/docker:dind
+        ports:
+        - "9002:9002"
+        depends_on:
+        - drone
+        privileged: true
+        volumes:
+        - /data/drone/docker:/var/lib/docker:z
 
 networks:
     default:

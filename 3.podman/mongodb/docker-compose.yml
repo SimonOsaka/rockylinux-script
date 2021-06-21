@@ -1,0 +1,29 @@
+version: "3"
+services:
+  mongodb:
+    image: docker.io/mongo
+    container_name: mongodb_server
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongodb_admin
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb_example
+    volumes:
+      - /data/mongodb/data:/data/db:z
+      - /data/mongodb/log:/var/log/mongodb:z
+  
+  mongodb-express:
+    image: docker.io/mongo-express
+    container_name: mongodb_express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=mongodb_admin
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=mongodb_example
+      - ME_CONFIG_MONGODB_URL=mongodb://mongodb_admin:mongodb_example@mongodb:27017/admin?ssl=false
+    depends_on:
+      - mongodb

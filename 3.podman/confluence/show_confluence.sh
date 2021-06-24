@@ -1,2 +1,2 @@
 #!/bin/bash
-podman ps -f "name=confluence_server_podman"
+docker ps -f "name=confluence_server_podman"

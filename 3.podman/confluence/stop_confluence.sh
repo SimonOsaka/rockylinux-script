@@ -1,2 +1,2 @@
 #!/bin/bash
-podman stop confluence_server_podman
+docker stop confluence_server_podman

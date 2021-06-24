@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p drone_server_podman stop drone runner docker
+docker-compose -p drone_server stop drone runner-ssh runner-docker

@@ -1,3 +1,2 @@
 #!/bin/bash
-
-podman-compose -p gitea_podman up -d
+docker-compose -p gitea_server up -d

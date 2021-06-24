@@ -1,4 +1,2 @@
 #!/bin/bash
-podman pod ps
-
-podman-compose -p gitea_podman ps
+docker-compose -p gitea_server ps

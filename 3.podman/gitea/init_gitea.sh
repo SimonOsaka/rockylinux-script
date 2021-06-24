@@ -5,4 +5,4 @@ mkdir -p /data/gitea/postgres/data
 
 sh run_gitea.sh
 
-podman-compose -p gitea_podman ps
+sh show_gitea.sh

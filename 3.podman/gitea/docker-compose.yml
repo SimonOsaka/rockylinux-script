@@ -6,7 +6,7 @@ networks:
 
 services:
   server:
-    image: docker.io/gitea/gitea:latest
+    image: gitea/gitea:latest
     container_name: gitea_server
     environment:
       - USER_UID=1000
@@ -29,7 +29,7 @@ services:
       - db
 
   db:
-    image: docker.io/postgres:13
+    image: postgres:13
     container_name: gitea_db
     restart: always
     environment:

@@ -1,7 +1,7 @@
-version: "3.8"
+version: "3"
 services:
     drone:
-        image: docker.io/drone/drone:latest
+        image: drone/drone:latest
         ports:
         - "9000:80"
         environment:
@@ -22,8 +22,8 @@ services:
         networks:
         - default
         - gitea
-    runner:
-        image: docker.io/drone/drone-runner-ssh
+    runner-ssh:
+        image: drone/drone-runner-ssh
         ports:
         - "9001:3000"
         depends_on:
@@ -38,21 +38,28 @@ services:
         networks:
         - default
         - gitea
-    docker:
-        image: docker.io/docker:dind
+    runner-docker:
+        image: drone/drone-runner-docker
         ports:
-        - "9002:9002"
+        - "9002:3000"
         depends_on:
         - drone
         privileged: true
+        environment:
+        - DRONE_RPC_HOST=192.168.56.102:9000
+        - DRONE_RPC_PROTO=http
+        - DRONE_RPC_SECRET=55cc8950dbf26ca82d740d344e5196fd
+        - DRONE_RUNNER_NAME=runner_docker
+        - DRONE_RUNNER_CAPACITY=2
         volumes:
-        - /data/drone/docker:/var/lib/docker:z
+        - /var/run/docker.sock:/var/run/docker.sock:z
+        networks:
+        - default
+        - gitea
 
 networks:
     default:
         external: false
     gitea:
         external:
-            name: gitea
-    docker:
-        external: false
+            name: gitea_server_gitea

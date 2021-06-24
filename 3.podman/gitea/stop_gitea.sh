@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p gitea_podman stop server db
+docker-compose -p gitea_server stop server db

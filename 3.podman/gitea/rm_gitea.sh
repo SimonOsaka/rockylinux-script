@@ -1,3 +1,2 @@
 #!/bin/bash
-
-podman-compose -p gitea_podman down
+docker-compose -p gitea_server down

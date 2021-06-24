@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p drone_server_podman start drone runner docker
+docker-compose -p drone_server start drone runner-ssh runner-docker

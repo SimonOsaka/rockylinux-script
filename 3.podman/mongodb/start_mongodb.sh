@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p mongodb_server_podman start mongodb mongodb-express
+docker-compose -p mongodb_server start mongodb mongodb-express

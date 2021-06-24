@@ -1,7 +1,7 @@
 version: "3"
 services:
   mongodb:
-    image: docker.io/mongo
+    image: mongo
     container_name: mongodb_server
     restart: always
     ports:
@@ -12,9 +12,11 @@ services:
     volumes:
       - /data/mongodb/data:/data/db:z
       - /data/mongodb/log:/var/log/mongodb:z
+    networks:
+      - mongodb-net
   
   mongodb-express:
-    image: docker.io/mongo-express
+    image: mongo-express
     container_name: mongodb_express
     restart: always
     ports:
@@ -27,3 +29,8 @@ services:
       - ME_CONFIG_MONGODB_URL=mongodb://mongodb_admin:mongodb_example@mongodb:27017/admin?ssl=false
     depends_on:
       - mongodb
+    networks:
+      - mongodb-net
+
+networks:
+  mongodb-net:

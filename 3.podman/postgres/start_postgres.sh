@@ -1,2 +1,2 @@
 #!/bin/bash
-podman start postgres_podman
+docker start postgres_server

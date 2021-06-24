@@ -1,2 +1,2 @@
 #!/bin/bash
-podman pull docker.io/postgres:alpine
+docker pull docker.io/postgres:alpine

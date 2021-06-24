@@ -1,2 +1,2 @@
 #!/bin/bash
-podman stop postgres_podman
+docker stop postgres_server

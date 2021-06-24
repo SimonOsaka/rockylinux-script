@@ -1,3 +1,2 @@
 #!/bin/bash
-
-podman-compose -p wikijs_podman down
+docker-compose -p wikijs_server down

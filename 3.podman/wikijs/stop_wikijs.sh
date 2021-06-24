@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p wikijs_podman stop wiki db
+docker-compose -p wikijs_server stop wiki db

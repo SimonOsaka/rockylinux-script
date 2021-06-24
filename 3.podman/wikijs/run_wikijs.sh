@@ -1,3 +1,2 @@
 #!/bin/bash
-
-podman-compose -p wikijs_podman up -d
+docker-compose -p wikijs_server up -d

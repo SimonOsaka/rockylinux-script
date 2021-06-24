@@ -1,7 +1,7 @@
 version: "3"
 services:
   wiki:
-    image: docker.io/requarks/wiki:2
+    image: requarks/wiki:2
     container_name: wikijs_server
     environment:
       - DB_TYPE=postgres
@@ -16,9 +16,11 @@ services:
       - "80:3000"
     depends_on:
       - db
+    networks:
+      - wikijs-net
 
   db:
-    image: docker.io/postgres:13
+    image: postgres:13
     container_name: wikijs_db
     restart: always
     environment:
@@ -31,3 +33,8 @@ services:
     restart: unless-stopped
     volumes:
       - /data/wikijs/postgres/data:/var/lib/postgresql/data:z
+    networks:
+      - wikijs-net
+
+networks:
+  wikijs-net:

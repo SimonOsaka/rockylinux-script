@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p wikijs_podman start wiki db
+docker-compose -p wikijs_server start wiki db

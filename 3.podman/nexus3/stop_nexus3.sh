@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p nexus3_server_podman stop -t 120 nexus3
+docker-compose -p nexus3_server stop -t 120 nexus3

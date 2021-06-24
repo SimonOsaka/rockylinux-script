@@ -1,7 +1,7 @@
 version: "3"
 services:
   nexus3:
-    image: docker.io/sonatype/nexus3
+    image: sonatype/nexus3
     container_name: nexus3_server
     volumes:
       - /data/nexus3/data:/nexus-data:z

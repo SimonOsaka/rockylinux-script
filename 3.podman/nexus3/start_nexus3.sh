@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p nexus3_server_podman start nexus3
+docker-compose -p nexus3_server start nexus3

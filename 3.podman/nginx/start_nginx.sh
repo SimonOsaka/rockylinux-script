@@ -1,2 +1,2 @@
 #!/bin/bash
-podman start nginx_podman
+docker start nginx_server

@@ -1,2 +1,2 @@
 #!/bin/bash
-podman stop nginx_podman
+docker stop nginx_server

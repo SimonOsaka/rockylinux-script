@@ -1,2 +1,2 @@
 #!/bin/bash
-podman-compose -p openldap_server_podman stop openldap phpldapadmin
+docker-compose -p openldap_server stop openldap phpldapadmin

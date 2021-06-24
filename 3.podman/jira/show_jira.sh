@@ -1,4 +1,3 @@
 #!/bin/bash
-podman pod ps
-echo ---
-podman-compose -p jira_server_podman ps
+
+docker-compose -p jira_server_podman ps

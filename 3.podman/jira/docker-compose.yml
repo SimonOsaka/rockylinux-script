@@ -1,7 +1,7 @@
 version: "3"
 services:
   jira:
-    image: docker.io/atlassian/jira-software:8.15.1
+    image: atlassian/jira-software:8.15.1
     container_name: jira_server
     volumes:
       - /data/jira/data:/var/atlassian/application-data/jira:z
@@ -9,9 +9,11 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    networks:
+      - jira-net
 
   db:
-    image: docker.io/postgres:13
+    image: postgres:13
     container_name: jira_db
     restart: always
     environment:
@@ -21,3 +23,8 @@ services:
       - TZ=Asia/Shanghai
     volumes:
       - /data/jira/postgres/data:/var/lib/postgresql/data:z
+    networks:
+      - jira-net
+
+networks:
+  jira-net:

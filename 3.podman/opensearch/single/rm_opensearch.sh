@@ -1,4 +1,4 @@
 #!/bin/bash
 sh stop_opensearch.sh
 
-podman-compose -p opensearch_server_podman -f docker-compose-single.yml down
+docker-compose -p opensearch_server -f docker-compose-single.yml down

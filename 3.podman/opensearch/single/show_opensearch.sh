@@ -1,4 +1,2 @@
 #!/bin/bash
-podman pod ps
-echo ---
-podman-compose -p opensearch_server_podman -f=docker-compose-single.yml ps
+docker-compose -p opensearch_server -f docker-compose-single.yml ps

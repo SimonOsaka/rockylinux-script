@@ -1,7 +1,7 @@
 version: "3"
 services:
   opensearch:
-    image: docker.io/opensearchproject/opensearch:latest
+    image: opensearchproject/opensearch:latest
     container_name: opensearch_server
     restart: always
     ports:
@@ -12,9 +12,11 @@ services:
     volumes:
       - /data/opensearch/data:/usr/share/opensearch/data:z
       - /data/opensearch/logs:/usr/share/opensearch/logs:z
+    networks:
+      - opensearch-net
   
   opensearch-dashboards:
-    image: docker.io/opensearchproject/opensearch-dashboards:latest
+    image: opensearchproject/opensearch-dashboards:latest
     container_name: opensearch_dashboards
     restart: always
     ports:
@@ -23,3 +25,8 @@ services:
       - OPENSEARCH_HOSTS=https://opensearch_server:9200
     depends_on:
       - opensearch
+    networks:
+      - opensearch-net
+
+networks:
+  opensearch-net:

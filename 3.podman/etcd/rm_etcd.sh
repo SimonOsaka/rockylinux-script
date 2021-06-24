@@ -1,4 +1,4 @@
 #!/bin/bash
 sh stop_etcd.sh
 
-podman rm etcd_server_podman
+docker rm etcd_server_podman

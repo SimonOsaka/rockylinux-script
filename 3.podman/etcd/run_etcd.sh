@@ -1,5 +1,5 @@
 #!/bin/bash
-podman run -itd --name etcd_server_podman \
+docker run -itd --name etcd_server_podman \
 -p 2379:2379 \
 -p 2380:2380 \
 -e ALLOW_NONE_AUTHENTICATION=yes \

@@ -1,2 +1,2 @@
 #!/bin/bash
-podman stop etcd_server_podman
+docker stop etcd_server_podman

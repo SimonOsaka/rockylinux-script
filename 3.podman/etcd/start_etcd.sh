@@ -1,2 +1,2 @@
 #!/bin/bash
-podman start etcd_server_podman
+docker start etcd_server_podman

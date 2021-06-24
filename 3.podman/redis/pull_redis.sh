@@ -1,2 +1,2 @@
 #!/bin/bash
-podman pull docker.io/redis:alpine
+docker pull redis:alpine

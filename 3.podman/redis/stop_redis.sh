@@ -1,2 +1,2 @@
 #!/bin/bash
-podman stop redis_podman
+docker stop redis_server

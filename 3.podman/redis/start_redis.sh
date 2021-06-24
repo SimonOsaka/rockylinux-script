@@ -1,2 +1,2 @@
 #!/bin/bash
-podman start redis_podman
+docker start redis_server

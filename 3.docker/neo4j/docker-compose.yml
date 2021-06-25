@@ -1,0 +1,12 @@
+version: "3"
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j_server
+    volumes:
+      - /data/neo4j/data:/data
+      - /data/neo4j/conf:/conf
+      - /data/neo4j/logs:/logs
+    ports:
+      - "7474:7474"
+      - "7687:7687"

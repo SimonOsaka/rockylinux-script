@@ -1,0 +1,22 @@
+version: "3"
+services:
+  clickhouse:
+    image: yandex/clickhouse-server:latest-alpine
+    container_name: clickhouse_server
+    environment:
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+    volumes:
+      - /data/clickhouse/data:/var/lib/clickhouse
+    ports:
+      - 8123:8123
+      - 9000:9000
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      - clickhouse-net
+
+networks:
+  clickhouse-net:

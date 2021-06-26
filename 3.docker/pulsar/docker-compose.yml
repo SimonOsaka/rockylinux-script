@@ -1,0 +1,34 @@
+version: "3"
+services:
+  pulsar:
+    image: apachepulsar/pulsar:latest
+    container_name: pulsar_server
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "5"
+      driver: json-file
+    volumes:
+      - /data/pulsar/data:/pulsar/data
+#      - /data/pulsar/conf:/pulsar/conf
+    command: bin/pulsar standalone
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+    networks:
+      - pulsar-net
+
+  pulsar-dashboard:
+    image: apachepulsar/pulsar-dashboard:latest
+    container_name: pulsar_dashboard
+    restart: unless-stopped
+    environment:
+      - SERVICE_URL=pulsar://localhost:6650
+    ports:
+      - 8000:80
+    networks:
+      - pulsar-net
+
+networks:
+  pulsar-net:

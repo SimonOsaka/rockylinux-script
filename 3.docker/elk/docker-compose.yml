@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  elasticsearch:
+    image: elasticsearch:7.6.2
+    container_name: elasticsearch
+    privileged: true
+    user: root
+    environment:
+      - cluster.name=elasticsearch 
+      - discovery.type=single-node 
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - /data/elk/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+      - /data/elk/elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  logstash:
+    image: logstash:7.6.2
+    container_name: logstash
+    ports:
+       - 4560:4560
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /data/elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf 
+    depends_on:
+      - elasticsearch 
+    links:
+      - elasticsearch:es 
+    
+  kibana:
+    image: kibana:7.6.2
+    container_name: kibana
+    ports:
+        - 5601:5601
+    privileged: true
+    links:
+      - elasticsearch:es 
+    depends_on:
+      - elasticsearch 
+    environment:
+      - elasticsearch.hosts=http://es:9200 

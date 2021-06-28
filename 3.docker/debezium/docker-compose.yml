@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  debezium:
+    image: debezium/server
+    container_name: debezium
+    volumes:
+      - /data/debezium/data:/debezium/data
+      - /data/debezium/conf:/debezium/conf
+    ports:
+      - 8081:8080
+    depends_on:
+      - pulsar
+    links:
+      - postgres
+      - pulsar
+
+  postgres:
+    image: helloworld/postgres:13-alpine
+    build:
+      context: ./postgres13-alpine
+      dockerfile: Dockerfile
+    container_name: postgres
+    ports:
+       - 5432:5432
+    environment:
+      - TZ=Asia/Shanghai
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - /data/debezium/postgres/data:/var/lib/postgresql/data
+      - /data/debezium/postgres/conf/postgres.conf:/etc/postgresql/postgresql.conf
+      - /data/debezium/postgres/init:/docker-entrypoint-initdb.d/
+    command: -c 'config_file=/etc/postgresql/postgresql.conf'
+    
+  pulsar:
+    image: apachepulsar/pulsar:latest
+    container_name: pulsar
+    ports:
+        - 6650:6650
+        - 8080:8080
+    depends_on:
+      - postgres 
+    command: bin/pulsar standalone

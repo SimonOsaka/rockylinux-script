@@ -1,0 +1,62 @@
+version: "3"
+services:
+  prometheus:
+    image: prom/prometheus:v2.28.0
+    container_name: prometheus
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "5M"
+        max-file: "5"
+      driver: json-file
+    volumes:
+      - /data/prometheus/conf:/etc/prometheus
+      - /data/prometheus/data:/prometheus
+    ports:
+      - 9090:9090
+
+  node_exporter:
+    image: prom/node-exporter:v1.1.2
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    ports:
+      - 9100:9100
+
+  cadvisor:
+    image: google/cadvisor
+    container_name: cadvisor
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    ports:
+      - 8080:8080
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - /data/prometheus/alertmanager/conf:/etc/alertmanager/
+      - /data/prometheus/alertmanager/data:/alertmanager/
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - /data/prometheus/grafana/data:/var/lib/grafana

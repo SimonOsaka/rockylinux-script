@@ -1,0 +1,62 @@
+version: '3.8'
+services:
+  elasticsearch:
+    image: elasticsearch:7.5.0
+    container_name: elasticsearch
+    restart: always
+    ports:
+      - 9200:9200
+    environment:
+      - cluster.name=elasticsearch 
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /data/skywalking/es/plugins:/usr/share/elasticsearch/plugins
+      - /data/skywalking/es/data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  skywalking_oap:
+    image: apache/skywalking-oap-server:8.6.0-es7
+    container_name: skywalking_oap
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    restart: always
+    ports:
+      - 11800:11800
+      - 12800:12800
+    environment:
+      - SW_STORAGE=elasticsearch7
+      - SW_STORAGE_ES_CLUSTER_NODES=elasticsearch:9200
+      - SW_HEALTH_CHECKER=default
+      - SW_TELEMETRY=prometheus
+    healthcheck:
+      test: ["CMD", "./bin/swctl", "ch"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  skywalking_ui:
+    image: apache/skywalking-ui:8.6.0
+    container_name: skywalking_ui
+    depends_on:
+      - skywalking_oap
+    links:
+      - skywalking_oap
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - SW_OAP_ADDRESS=skywalking_oap:12800

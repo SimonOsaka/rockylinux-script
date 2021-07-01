@@ -1,0 +1,2 @@
+#!/bin/bash
+docker-compose -p mailserver_server stop mailserver

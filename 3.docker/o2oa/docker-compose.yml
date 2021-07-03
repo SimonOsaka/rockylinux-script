@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  o2oa:
+    image: helloworld/o2oa
+    container_name: o2oa
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+      - 20020:20020
+      - 20030:20030
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13-alpine
+    container_name: postgres
+    ports:
+       - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=X
+    volumes:
+      - /data/o2oa/postgres/data:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro

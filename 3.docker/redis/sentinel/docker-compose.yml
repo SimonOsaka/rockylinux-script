@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  redis_sentinel1:
+    image: redis:alpine
+    container_name: redis_sentinel1_server
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 26379:26379
+    environment:
+      - TZ="Asia/Shanghai"
+    volumes:
+      - /data/redis/sentinel/s1/conf:/etc/redis
+      - /data/redis/sentinel/s1/data:/data
+    command: ["redis-sentinel", "/etc/redis/redis.conf"]
+    sysctls:
+      net.core.somaxconn: '511'
+    networks:
+      - redis
+
+  redis_sentinel2:
+    image: redis:alpine
+    container_name: redis_sentinel2_server
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 26380:26380
+    environment:
+      - TZ="Asia/Shanghai"
+    volumes:
+      - /data/redis/sentinel/s2/conf:/etc/redis
+      - /data/redis/sentinel/s2/data:/data
+    command: ["redis-sentinel", "/etc/redis/redis.conf"]
+    sysctls:
+      net.core.somaxconn: '511'
+    networks:
+      - redis
+
+  redis_sentinel3:
+    image: redis:alpine
+    container_name: redis_sentinel3_server
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 26381:26381
+    environment:
+      - TZ="Asia/Shanghai"
+    volumes:
+      - /data/redis/sentinel/s3/conf:/etc/redis
+      - /data/redis/sentinel/s3/data:/data
+    command: ["redis-sentinel", "/etc/redis/redis.conf"]
+    sysctls:
+      net.core.somaxconn: '511'
+    networks:
+      - redis
+
+networks:
+  redis:
+    external:
+      name: redis_master_slave_server_redis

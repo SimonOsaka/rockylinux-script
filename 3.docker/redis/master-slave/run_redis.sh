@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose -p redis_server up -d
+docker-compose -p redis_master_slave_server up -d

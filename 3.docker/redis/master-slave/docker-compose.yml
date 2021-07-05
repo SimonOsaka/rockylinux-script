@@ -7,13 +7,16 @@ services:
     restart: unless-stopped
     ports:
       - 6379:6379
-    privileged: true
     environment:
       - TZ="Asia/Shanghai"
     volumes:
       - /data/redis/master-slave/master/conf:/etc/redis
       - /data/redis/master-slave/master/data:/data
     command: ["redis-server", "/etc/redis/redis.conf"]
+    sysctls:
+      net.core.somaxconn: '511'
+    networks:
+      - redis
 
   redis_slave1:
     image: redis:alpine
@@ -21,7 +24,6 @@ services:
     restart: unless-stopped
     ports:
       - 6380:6380
-    privileged: true
     environment:
       - TZ="Asia/Shanghai"
     volumes:
@@ -30,6 +32,10 @@ services:
     command: ["redis-server", "/etc/redis/redis.conf"]
     depends_on:
       - redis_master
+    sysctls:
+      net.core.somaxconn: '511'
+    networks:
+      - redis
 
   redis_slave2:
     image: redis:alpine
@@ -37,7 +43,6 @@ services:
     restart: unless-stopped
     ports:
       - 6381:6381
-    privileged: true
     environment:
       - TZ="Asia/Shanghai"
     volumes:
@@ -46,3 +51,10 @@ services:
     command: ["redis-server", "/etc/redis/redis.conf"]
     depends_on:
       - redis_master
+    sysctls:
+      net.core.somaxconn: '511'
+    networks:
+      - redis
+
+networks:
+  redis:

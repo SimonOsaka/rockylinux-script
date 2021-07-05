@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  redis_master:
+    image: redis:alpine
+    container_name: redis_master_server
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    privileged: true
+    environment:
+      - TZ="Asia/Shanghai"
+    volumes:
+      - /data/redis/master-slave/master/conf:/etc/redis
+      - /data/redis/master-slave/master/data:/data
+    command: ["redis-server", "/etc/redis/redis.conf"]
+
+  redis_slave1:
+    image: redis:alpine
+    container_name: redis_slave1_server
+    restart: unless-stopped
+    ports:
+      - 6380:6380
+    privileged: true
+    environment:
+      - TZ="Asia/Shanghai"
+    volumes:
+      - /data/redis/master-slave/slave1/conf:/etc/redis
+      - /data/redis/master-slave/slave1/data:/data
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    depends_on:
+      - redis_master
+
+  redis_slave2:
+    image: redis:alpine
+    container_name: redis_slave2_server
+    restart: unless-stopped
+    ports:
+      - 6381:6381
+    privileged: true
+    environment:
+      - TZ="Asia/Shanghai"
+    volumes:
+      - /data/redis/master-slave/slave2/conf:/etc/redis
+      - /data/redis/master-slave/slave2/data:/data
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    depends_on:
+      - redis_master

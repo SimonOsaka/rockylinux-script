@@ -1,2 +1,2 @@
 #!/bin/bash
-docker ps -f "name=confluence_server_podman"
+docker-compose -p "confluence_server" ps

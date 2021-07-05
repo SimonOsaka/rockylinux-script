@@ -1,2 +1,2 @@
 #!/bin/bash
-docker start confluence_server_podman
+docker-compose -p confluence_server start confluence

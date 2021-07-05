@@ -1,4 +1,5 @@
 #!/bin/bash
+# refer: https://www.cnblogs.com/alinainai/p/14086960.html
 
 mkdir -p /data/redis/sentinel/s1/data
 mkdir -p /data/redis/sentinel/s1/conf
@@ -7,6 +8,7 @@ mkdir -p /data/redis/sentinel/s2/conf
 mkdir -p /data/redis/sentinel/s3/data
 mkdir -p /data/redis/sentinel/s3/conf
 
+# When redis_master_slave started, modify 'REDIS_MASTER_IP' value
 REDIS_MASTER_IP=172.29.0.2
 #
 # s1 conf

@@ -1,2 +1,2 @@
 #!/bin/bash
-docker start nginx_server
+docker-compose -p nginx_server start nginx

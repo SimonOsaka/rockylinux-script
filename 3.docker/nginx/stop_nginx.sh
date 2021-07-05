@@ -1,2 +1,3 @@
 #!/bin/bash
-docker stop nginx_server
+
+docker-compose -p nginx_server stop nginx

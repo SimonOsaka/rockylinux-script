@@ -1,2 +1,2 @@
 #!/bin/bash
-docker stop postgres_server
+docker-compose -p postgres_server stop postgres

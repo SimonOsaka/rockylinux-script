@@ -1,0 +1,14 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres_server
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=123456
+    volumes:
+      - /data/postgres/data:/var/lib/postgresql/data
+      - /data/postgres/conf/postgres.conf:/etc/postgresql/postgresql.conf
+    ports:
+      - 5432:5432
+    command: -c 'config_file=/etc/postgresql/postgresql.conf'

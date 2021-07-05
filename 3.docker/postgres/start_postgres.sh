@@ -1,2 +1,2 @@
 #!/bin/bash
-docker start postgres_server
+docker-compose -p postgres_server start postgres

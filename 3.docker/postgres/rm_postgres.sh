@@ -1,3 +1,3 @@
 #!/bin/bash
 sh stop_postgres.sh
-docker rm postgres_server
+docker-compose -p postgres_server down

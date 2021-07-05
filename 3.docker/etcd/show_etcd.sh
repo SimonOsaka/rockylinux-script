@@ -1,2 +1,2 @@
 #!/bin/bash
-docker ps -f "name=etcd_server_podman"
+docker-compose -p "etcd_server" ps

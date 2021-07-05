@@ -1,2 +1,2 @@
 #!/bin/bash
-docker start etcd_server_podman
+docker-compose -p etcd_server start etcd

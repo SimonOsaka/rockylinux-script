@@ -1,0 +1,100 @@
+version: "3"
+services:
+  pg-0:
+    image: bitnami/postgresql-repmgr:13
+    container_name: postgres_pg0
+    ports:
+      - 5432
+    volumes:
+      - /data/postgres/ha/pg_0/conf:/bitnami/postgresql/conf
+      - /data/postgres/ha/pg_0/data:/bitnami/postgresql/data
+    environment:
+      - POSTGRESQL_POSTGRES_PASSWORD=adminpassword
+      - POSTGRESQL_USERNAME=customuser
+      - POSTGRESQL_PASSWORD=custompassword
+      - POSTGRESQL_DATABASE=customdatabase
+      - REPMGR_PASSWORD=repmgrpassword
+      - REPMGR_PRIMARY_HOST=pg-0
+      - REPMGR_PARTNER_NODES=pg-0,pg-1,pg-2,pg-3
+      - REPMGR_NODE_NAME=pg-0
+      - REPMGR_NODE_NETWORK_NAME=pg-0
+
+  pg-1:
+    image: bitnami/postgresql-repmgr:13
+    container_name: postgres_pg1
+    ports:
+      - 5432
+    volumes:
+      - /data/postgres/ha/pg_1/conf:/bitnami/postgresql/conf
+      - /data/postgres/ha/pg_1/data:/bitnami/postgresql/data
+    environment:
+      - POSTGRESQL_POSTGRES_PASSWORD=adminpassword
+      - POSTGRESQL_USERNAME=customuser
+      - POSTGRESQL_PASSWORD=custompassword
+      - POSTGRESQL_DATABASE=customdatabase
+      - REPMGR_PASSWORD=repmgrpassword
+      - REPMGR_PRIMARY_HOST=pg-0
+      - REPMGR_PARTNER_NODES=pg-0,pg-1,pg-2,pg-3
+      - REPMGR_NODE_NAME=pg-1
+      - REPMGR_NODE_NETWORK_NAME=pg-1
+
+  pg-2:
+    image: bitnami/postgresql-repmgr:13
+    container_name: postgres_pg2
+    ports:
+      - 5432
+    volumes:
+      - /data/postgres/ha/pg_2/conf:/bitnami/postgresql/conf
+      - /data/postgres/ha/pg_2/data:/bitnami/postgresql/data
+    environment:
+      - POSTGRESQL_POSTGRES_PASSWORD=adminpassword
+      - POSTGRESQL_USERNAME=customuser
+      - POSTGRESQL_PASSWORD=custompassword
+      - POSTGRESQL_DATABASE=customdatabase
+      - REPMGR_PASSWORD=repmgrpassword
+      - REPMGR_PRIMARY_HOST=pg-0
+      - REPMGR_PARTNER_NODES=pg-0,pg-1,pg-2,pg-3
+      - REPMGR_NODE_NAME=pg-2
+      - REPMGR_NODE_NETWORK_NAME=pg-2
+
+  pg-3:
+    image: bitnami/postgresql-repmgr:13
+    container_name: postgres_pg3
+    ports:
+      - 5432
+    volumes:
+      - /data/postgres/ha/pg_3/conf:/bitnami/postgresql/conf
+      - /data/postgres/ha/pg_3/data:/bitnami/postgresql/data
+    environment:
+      - POSTGRESQL_POSTGRES_PASSWORD=adminpassword
+      - POSTGRESQL_USERNAME=customuser
+      - POSTGRESQL_PASSWORD=custompassword
+      - POSTGRESQL_DATABASE=customdatabase
+      - REPMGR_PASSWORD=repmgrpassword
+      - REPMGR_PRIMARY_HOST=pg-0
+      - REPMGR_PARTNER_NODES=pg-0,pg-1,pg-2,pg-3
+      - REPMGR_NODE_NAME=pg-3
+      - REPMGR_NODE_NETWORK_NAME=pg-3
+
+  pgpool:
+    image: bitnami/pgpool:4
+    container_name: postgres_pgpool
+    ports:
+      - 5432:5432
+    environment:
+      - PGPOOL_BACKEND_NODES=0:pg-0:5432,1:pg-1:5432,2:pg-2:5432,3:pg-3:5432
+      - PGPOOL_SR_CHECK_USER=customuser
+      - PGPOOL_SR_CHECK_PASSWORD=custompassword
+      - PGPOOL_ENABLE_LDAP=no
+      - PGPOOL_POSTGRES_USERNAME=postgres
+      - PGPOOL_POSTGRES_PASSWORD=adminpassword
+      - PGPOOL_POSTGRES_CUSTOM_USERS=customuser
+      - PGPOOL_POSTGRES_CUSTOM_PASSWORDS=custompassword
+      - PGPOOL_ADMIN_USERNAME=admin
+      - PGPOOL_ADMIN_PASSWORD=adminpassword
+      - PGPOOL_ENABLE_LOAD_BALANCING=yes
+    healthcheck:
+      test: ["CMD", "/opt/bitnami/scripts/pgpool/healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

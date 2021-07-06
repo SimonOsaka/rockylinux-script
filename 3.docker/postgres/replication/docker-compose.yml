@@ -1,0 +1,54 @@
+version: "3"
+services:
+  master:
+    image: bitnami/postgresql:latest
+    container_name: postgres_master_server
+    restart: unless-stopped
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_USERNAME=my_user
+      - POSTGRESQL_PASSWORD=my_password
+      - POSTGRESQL_DATABASE=my_database
+      - POSTGRESQL_SYNCHRONOUS_COMMIT_MODE=on
+      - POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS=1
+    volumes:
+      - /data/postgres/replication/master/data:/bitnami/postgresql/data
+      - /data/postgres/replication/master/conf:/bitnami/postgresql/conf
+    ports:
+      - 5432:5432
+
+  slave1:
+    image: bitnami/postgresql:latest
+    container_name: postgres_slave1_server
+    ports:
+      - 5433:5432
+    depends_on:
+      - master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=master
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - POSTGRESQL_PASSWORD=my_password
+    volumes:
+      - /data/postgres/replication/slave1/data:/bitnami/postgresql/data
+
+  slave2:
+    image: bitnami/postgresql:latest
+    container_name: postgres_slave2_server
+    ports:
+      - 5434:5432
+    depends_on:
+      - master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=master
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - POSTGRESQL_PASSWORD=my_password
+    volumes:
+      - /data/postgres/replication/slave2/data:/bitnami/postgresql/data

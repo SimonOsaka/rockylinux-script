@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose -p jira_server_podman start jira db
+docker-compose -p jira_server start jira db

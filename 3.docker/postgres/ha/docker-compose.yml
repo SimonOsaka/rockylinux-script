@@ -5,6 +5,7 @@ services:
     container_name: postgres_pg0
     ports:
       - 5432
+    restart: always
     volumes:
       - /data/postgres/ha/pg_0/conf:/bitnami/postgresql/conf
       - /data/postgres/ha/pg_0/data:/bitnami/postgresql/data
@@ -24,6 +25,7 @@ services:
     container_name: postgres_pg1
     ports:
       - 5432
+    restart: always
     volumes:
       - /data/postgres/ha/pg_1/conf:/bitnami/postgresql/conf
       - /data/postgres/ha/pg_1/data:/bitnami/postgresql/data
@@ -43,6 +45,7 @@ services:
     container_name: postgres_pg2
     ports:
       - 5432
+    restart: always
     volumes:
       - /data/postgres/ha/pg_2/conf:/bitnami/postgresql/conf
       - /data/postgres/ha/pg_2/data:/bitnami/postgresql/data
@@ -62,6 +65,7 @@ services:
     container_name: postgres_pg3
     ports:
       - 5432
+    restart: always
     volumes:
       - /data/postgres/ha/pg_3/conf:/bitnami/postgresql/conf
       - /data/postgres/ha/pg_3/data:/bitnami/postgresql/data

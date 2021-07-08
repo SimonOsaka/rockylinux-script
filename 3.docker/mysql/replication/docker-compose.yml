@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+  master:
+    image: bitnami/mysql:8.0
+    container_name: mysql8_replication_master
+    ports:
+      - 3306:3306
+    volumes:
+      - /data/mysql/master/data:/bitnami/mysql/data
+      - /data/mysql/master/log:/bitnami/mysql/log
+      - /data/mysql/master/conf/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf:ro
+    environment:
+#      - BITNAMI_DEBUG=true
+      - MYSQL_ROOT_PASSWORD=my_root_password
+      - MYSQL_CHARACTER_SET=utf8mb4
+      - MYSQL_COLLATE=utf8mb4_general_ci
+      - MYSQL_DATABASE=my_database
+      - MYSQL_USER=my_user
+      - MYSQL_PASSWORD=my_password
+      - MYSQL_REPLICATION_MODE=master
+      - MYSQL_REPLICATION_USER=my_repl_user
+      - MYSQL_REPLICATION_PASSWORD=my_repl_password
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+
+  slave1:
+    image: bitnami/mysql:8.0
+    container_name: mysql8_replication_slave1
+    ports:
+      - 3306
+    volumes:
+      - /data/mysql/slave1/data:/bitnami/mysql/data
+      - /data/mysql/slave1/log:/bitnami/mysql/log
+      - /data/mysql/slave1/conf/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf:ro
+    environment:
+#      - BITNAMI_DEBUG=true
+      - MYSQL_CHARACTER_SET=utf8mb4
+      - MYSQL_COLLATE=utf8mb4_general_ci
+      - MYSQL_DATABASE=my_database
+      - MYSQL_USER=my_user
+      - MYSQL_PASSWORD=my_password
+      - MYSQL_REPLICATION_MODE=slave
+      - MYSQL_REPLICATION_USER=my_repl_user
+      - MYSQL_REPLICATION_PASSWORD=my_repl_password
+      - MYSQL_MASTER_HOST=master
+      - MYSQL_MASTER_PORT_NUMBER=3306
+      - MYSQL_MASTER_ROOT_PASSWORD=my_root_password
+    depends_on:
+      - master
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+
+  slave2:
+    image: bitnami/mysql:8.0
+    container_name: mysql8_replication_slave2
+    ports:
+      - 3306
+    volumes:
+      - /data/mysql/slave2/data:/bitnami/mysql/data
+      - /data/mysql/slave2/log:/bitnami/mysql/log
+      - /data/mysql/slave2/conf/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf:ro
+    environment:
+#      - BITNAMI_DEBUG=true
+      - MYSQL_CHARACTER_SET=utf8mb4
+      - MYSQL_COLLATE=utf8mb4_general_ci
+      - MYSQL_DATABASE=my_database
+      - MYSQL_USER=my_user
+      - MYSQL_PASSWORD=my_password
+      - MYSQL_REPLICATION_MODE=slave
+      - MYSQL_REPLICATION_USER=my_repl_user
+      - MYSQL_REPLICATION_PASSWORD=my_repl_password
+      - MYSQL_MASTER_HOST=master
+      - MYSQL_MASTER_PORT_NUMBER=3306
+      - MYSQL_MASTER_ROOT_PASSWORD=my_root_password
+    depends_on:
+      - master
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6

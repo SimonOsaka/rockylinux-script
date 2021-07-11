@@ -1,0 +1,108 @@
+version: '3'
+
+services:
+  cluster1:
+    image: bitnami/mariadb-galera:latest
+    container_name: mariadb_cluster1
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - /data/mariadb/cluster1/data:/bitnami/mariadb/data
+      - /data/mariadb/cluster1/log:/bitnami/mariadb/log
+      - /data/mariadb/cluster1/conf/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
+      - /data/mariadb/cluster1/init:/docker-entrypoint-initdb.d
+    environment:
+      - BITNAMI_DEBUG=true
+      - MARIADB_ROOT_PASSWORD=my_root_password
+      - MARIADB_CHARACTER_SET=utf8mb4
+      - MARIADB_COLLATE=utf8mb4_general_ci
+      - MARIADB_DATABASE=my_database
+      - MARIADB_USER=my_user
+      - MARIADB_PASSWORD=my_password
+      - MARIADB_GALERA_CLUSTER_NAME=my_galera
+      - MARIADB_GALERA_MARIABACKUP_USER=my_mariabackup_user
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD=my_mariabackup_password
+      - MARIADB_GALERA_CLUSTER_BOOTSTRAP=yes
+      - MARIADB_GALERA_NODE_ADDRESS=cluster1
+      - MARIADB_GALERA_FORCE_SAFETOBOOTSTRAP=yes
+      - MARIADB_REPLICATION_USER=my_replication_user
+      - MARIADB_REPLICATION_PASSWORD=my_replication_password
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mariadb-galera/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+
+  cluster2:
+    image: bitnami/mariadb-galera:latest
+    container_name: mariadb_cluster2
+    restart: always
+    ports:
+#      - 3306
+      - 3307:3306
+    volumes:
+      - /data/mariadb/cluster2/data:/bitnami/mariadb/data
+      - /data/mariadb/cluster2/log:/bitnami/mariadb/log
+      - /data/mariadb/cluster2/conf/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
+      - /data/mariadb/cluster2/init:/docker-entrypoint-initdb.d
+    environment:
+      - BITNAMI_DEBUG=true
+      - MARIADB_ROOT_PASSWORD=my_root_password
+      - MARIADB_CHARACTER_SET=utf8mb4
+      - MARIADB_COLLATE=utf8mb4_general_ci
+      - MARIADB_GALERA_CLUSTER_NAME=my_galera
+      - MARIADB_GALERA_CLUSTER_ADDRESS=gcomm://cluster1:4567,0.0.0.0:4567
+      - MARIADB_GALERA_CLUSTER_BOOTSTRAP=no
+      - MARIADB_GALERA_MARIABACKUP_USER=my_mariabackup_user
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD=my_mariabackup_password
+      - MARIADB_GALERA_NODE_ADDRESS=cluster2
+      - MARIADB_REPLICATION_USER=my_replication_user
+      - MARIADB_REPLICATION_PASSWORD=my_replication_password
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mariadb-galera/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+
+  cluster3:
+    image: bitnami/mariadb-galera:latest
+    container_name: mariadb_cluster3
+    restart: always
+    ports:
+#      - 3306
+      - 3308:3306
+    volumes:
+      - /data/mariadb/cluster3/data:/bitnami/mariadb/data
+      - /data/mariadb/cluster3/log:/bitnami/mariadb/log
+      - /data/mariadb/cluster3/conf/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
+      - /data/mariadb/cluster3/init:/docker-entrypoint-initdb.d
+    environment:
+      - BITNAMI_DEBUG=true
+      - MARIADB_ROOT_PASSWORD=my_root_password
+      - MARIADB_CHARACTER_SET=utf8mb4
+      - MARIADB_COLLATE=utf8mb4_general_ci
+      - MARIADB_GALERA_CLUSTER_NAME=my_galera
+      - MARIADB_GALERA_CLUSTER_ADDRESS=gcomm://cluster1:4567,0.0.0.0:4567
+      - MARIADB_GALERA_MARIABACKUP_USER=my_mariabackup_user
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD=my_mariabackup_password
+      - MARIADB_GALERA_CLUSTER_BOOTSTRAP=no
+      - MARIADB_GALERA_NODE_ADDRESS=cluster3
+      - MARIADB_REPLICATION_USER=my_replication_user
+      - MARIADB_REPLICATION_PASSWORD=my_replication_password
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mariadb-galera/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+
+  proxysql:
+    image: severalnines/proxysql:2.2.0
+    container_name: mariadb_proxysql
+    ports:
+      - 6033:6033
+      - 6032:6032
+    restart: unless-stopped
+    volumes:
+      - /data/mariadb/proxysql/data:/var/lib/proxysql
+      - /data/mariadb/proxysql/conf/proxysql.cnf:/etc/proxysql.cnf

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  mariadb:
+    image: bitnami/mariadb:latest
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - /data/mariadb/data:/bitnami/mariadb/data
+      - /data/mariadb/log:/bitnami/mariadb/log
+      - /data/mariadb/conf/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
+      - /data/mariadb/init:/docker-entrypoint-initdb.d
+    environment:
+      - BITNAMI_DEBUG=true
+      - MARIADB_ROOT_PASSWORD=my_root_password
+      - MARIADB_CHARACTER_SET=utf8mb4
+      - MARIADB_COLLATE=utf8mb4_general_ci
+      - MARIADB_DATABASE=my_database
+      - MARIADB_USER=my_user
+      - MARIADB_PASSWORD=my_password
+      - MARIADB_SKIP_TEST_DB=yes
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mariadb/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6

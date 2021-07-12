@@ -1,0 +1,13 @@
+[mysqld]
+default_time_zone = "+8:00"
+lower_case_table_names = 1
+
+#slow_query_log = 1
+#slow_query_log_file = /bitnami/mariadb/log/slow.log
+#log_timestamps = SYSTEM
+#long_query_time = 5
+#log_queries_not_using_indexes = 0
+#log_throttle_queries_not_using_indexes = 60
+#min_examined_row_limit = 5000
+#log_slow_admin_statements = 0
+#log_slow_slave_statements = 1

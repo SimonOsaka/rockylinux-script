@@ -1,7 +1,7 @@
 ## bind9 && webmin
 - docker image source: [docker-bind(github)](https://github.com/DSFInc/docker-bind)
 ### bind9
-- run
+- run([how to run](../README.md))
 ### webmin
 - open browser with url: http://docker-ip:10000
 - when added master zone and address, apply it.

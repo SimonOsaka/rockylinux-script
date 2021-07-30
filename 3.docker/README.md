@@ -1,8 +1,8 @@
 ### How to use
 #### initial
 - Run `sh init_***.sh` only once.
-- *** will start.
-- Any details see `init_***.sh`.
+- *** will start instance.
+- What to do? see `init_***.sh`.
 
 #### stop
 - Run `sh stop_***.sh` will stop instance.
